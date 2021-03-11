@@ -1,6 +1,7 @@
 ## Azure Workbook : Total Memory and CPU
 
 This workbook will display the total memomy and CPU accross all your subscriptions.
+
 There are no parameter to manually fill in.
 
 it is based on 3 queries : 
