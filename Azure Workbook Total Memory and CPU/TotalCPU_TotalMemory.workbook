@@ -1,0 +1,202 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "value::all"
+        ],
+        "parameters": [
+          {
+            "id": "72f4341b-0a20-4c0d-8a82-b4b531f47bb0",
+            "version": "KqlParameterItem/1.0",
+            "name": "SubscriptionID",
+            "type": 1,
+            "query": "resourcecontainers | where type==\"microsoft.resources/subscriptions\" | project subscriptionId | limit 1",
+            "crossComponentResources": [
+              "value::all"
+            ],
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources"
+      },
+      "conditionalVisibility": {
+        "parameterName": "test",
+        "comparison": "isEqualTo",
+        "value": "1"
+      },
+      "name": "parameters - 3"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | summarize Count=count() by Profile=tostring(properties.hardwareProfile.vmSize)",
+        "size": 0,
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "value::all"
+        ],
+        "gridSettings": {
+          "rowLimit": 1000
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "test",
+        "comparison": "isEqualTo",
+        "value": "1"
+      },
+      "name": "Azure Resource Graph"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{SubscriptionID}/providers/Microsoft.Compute/skus?api-version=2019-04-01&$filter=location eq 'westeurope'\",\"urlParams\":[{\"key\":\"\",\"value\":\"\"}],\"batchDisabled\":true,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.value[?(@.resourceType==\\\"virtualMachines\\\")]\",\"columns\":[{\"path\":\"$.name\",\"columnid\":\"name\",\"substringRegexMatch\":\"virtualMachines\"},{\"path\":\"$.capabilities[?(@.name==\\\"MemoryGB\\\")].value\",\"columnid\":\"Memory\"},{\"path\":\"$.capabilities[?(@.name==\\\"vCPUs\\\")].value\",\"columnid\":\"CPU\"}]}}]}",
+        "size": 0,
+        "exportToExcelOptions": "all",
+        "queryType": 12,
+        "gridSettings": {
+          "rowLimit": 1000
+        }
+      },
+      "conditionalVisibility": {
+        "parameterName": "test",
+        "comparison": "isEqualTo",
+        "value": "1"
+      },
+      "name": "RESTAPI"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"f605e86b-bb06-4432-b18a-0f4b44f5b047\",\"mergeType\":\"innerunique\",\"leftTable\":\"RESTAPI\",\"rightTable\":\"Azure Resource Graph\",\"leftColumn\":\"name\",\"rightColumn\":\"Profile\"}],\"projectRename\":[{\"originalName\":\"value\",\"mergedName\":\"value\",\"fromId\":\"unknown\"},{\"originalName\":\"defaultVisualization\",\"mergedName\":\"defaultVisualization\",\"fromId\":\"unknown\"},{\"originalName\":\"[Azure Resource Graph].Count\",\"mergedName\":\"Count\",\"fromId\":\"unknown\"},{\"originalName\":\"[RESTAPI].name\",\"mergedName\":\"name\",\"fromId\":\"f605e86b-bb06-4432-b18a-0f4b44f5b047\"},{\"originalName\":\"[RESTAPI].Memory\",\"mergedName\":\"Memory\",\"fromId\":\"f605e86b-bb06-4432-b18a-0f4b44f5b047\"},{\"originalName\":\"[RESTAPI].CPU\",\"mergedName\":\"CPU\",\"fromId\":\"f605e86b-bb06-4432-b18a-0f4b44f5b047\"},{\"originalName\":\"[Azure Resource Graph].Profile\",\"mergedName\":\"Profile\",\"fromId\":\"f605e86b-bb06-4432-b18a-0f4b44f5b047\"},{\"originalName\":\"[Added column]\",\"mergedName\":\"CPU Total\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"Count\",\"operator\":\"isNotNull\",\"rightValType\":\"static\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"CPU\\\"]*[\\\"Count\\\"]\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[Added column]\",\"mergedName\":\"Memory Total\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Count\\\"]*[\\\"Memory\\\"]\"}}]},{\"originalName\":\"[Added column]\",\"mergedName\":\"raw\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"expression\",\"resultVal\":\"raw\"}}]}]}",
+        "size": 0,
+        "queryType": 7,
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Count",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "name",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Memory",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "CPU",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "Profile",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "CPU Total",
+              "formatter": 0,
+              "formatOptions": {
+                "aggregation": "Sum"
+              }
+            },
+            {
+              "columnMatch": "Memory Total",
+              "formatter": 1,
+              "formatOptions": {
+                "aggregation": "Sum"
+              }
+            },
+            {
+              "columnMatch": "raw",
+              "formatter": 5
+            }
+          ],
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "raw"
+            ]
+          }
+        },
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "Memory Total",
+            "formatter": 1
+          },
+          "leftContent": {
+            "columnMatch": "Memory Total",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "style": "decimal",
+                "useGrouping": false,
+                "maximumFractionDigits": 2,
+                "maximumSignificantDigits": 3
+              }
+            }
+          },
+          "showBorder": false
+        },
+        "graphSettings": {
+          "type": 0,
+          "topContent": {
+            "columnMatch": "name",
+            "formatter": 1
+          },
+          "centerContent": {
+            "columnMatch": "Count",
+            "formatter": 1,
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          }
+        },
+        "mapSettings": {
+          "locInfo": "LatLong",
+          "sizeSettings": "Memory",
+          "sizeAggregation": "Sum",
+          "legendMetric": "Memory",
+          "legendAggregation": "Sum",
+          "itemColorSettings": {
+            "type": "heatmap",
+            "colorAggregation": "Sum",
+            "nodeColorField": "Memory",
+            "heatmapPalette": "greenRed"
+          }
+        }
+      },
+      "name": "query - 2"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
