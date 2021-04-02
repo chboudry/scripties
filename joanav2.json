@@ -55,7 +55,7 @@
                     "count": "[length(variables('Policies'))]",
                     "input": {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Policies')[copyIndex('policyDefinitions')].name)]",
-                        "policyDefinitionReferenceId": "[variables('Policies')[copyIndex()].id]"
+                        "policyDefinitionReferenceId": "[variables('Policies')[copyIndex('policyDefinitions')].id]"
                     }
                 }
                 ]
