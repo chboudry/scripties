@@ -8,7 +8,7 @@
                 "Yes",
                 "No"
             ],
-            "defaultValue": "Yes",
+            "defaultValue": "No",
             "metadata": {
                 "description": "TAG2"
             }
@@ -27,7 +27,9 @@
     },
     "variables": {
         "Tag2": "00b37f0c-2233-4074-99a1-53e7bc25a7da",
-        "Tag3": "d3d634ee-d900-4792-9265-2705e9b4be79"
+        "Tag3": "d3d634ee-d900-4792-9265-2705e9b4be79",
+        "Tag2Definitions" : "[if(equals(parameters('TAG2'),'Yes'),'{\"policyDefinitionId\": \"[concat(subscription().id, \"/providers/Microsoft.Authorization/policyDefinitions/\", variables(\"Tag2\"))]\", \"policyDefinitionReferenceId\": \"Tag2\"},','')]",
+        "Tag3Definitions" : "[if(equals(parameters('TAG3'),'Yes'),'{\"policyDefinitionId\": \"[concat(subscription().id, \"/providers/Microsoft.Authorization/policyDefinitions/\", variables(\"Tag3\"))]\", \"policyDefinitionReferenceId\": \"Tag3\"},','')]"
     },
     "resources": [
         {
@@ -35,23 +37,14 @@
             "apiVersion": "2019-09-01",
             "name": "joanainitiative",
             "properties": {
-                "displayName": "displayname",
+                "displayName": "joanainitiative",
                 "description": "description",
                 "policyType": "Custom",
                 "metadata": {
                     "category": "Tags"
                 },
                 "parameters": {},
-                "policyDefinitions": [
-                    {
-                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag2'))]",
-                        "policyDefinitionReferenceId": "Tag2"
-                    },
-                    {
-                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag3'))]",
-                        "policyDefinitionReferenceId": "Tag3"
-                    }
-                ]
+                "policyDefinitions": ["[variables('Tag2Definitions')]"]
             }
         }
     ],
