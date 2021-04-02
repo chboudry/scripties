@@ -26,17 +26,16 @@
         }
     },
     "variables": {
-        "Policies": {
-            "type": "object",
-            "defaultValue": {
-                "Tag2": "00b37f0c-2233-4074-99a1-53e7bc25a7da",
-                "Tag3": "d3d634ee-d900-4792-9265-2705e9b4be79"
+        "Policies": [
+            {
+                "name": "Tag2",
+                "id": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
+            },
+            {
+                "name": "Tag3",
+                "id": "d3d634ee-d900-4792-9265-2705e9b4be79"
             }
-        },
-        "PoliciesArray": {
-            "type": "array",
-            "value": "[createArray(variables('Policies'))]"
-        }
+        ]   
     },
     "resources": [
         {
@@ -53,10 +52,10 @@
                 "copy": [
                 {
                     "name": "policyDefinitions",
-                    "count": 2,
+                    "count": "[length(variables('Policies'))]",
                     "input": {
-                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('PoliciesArray')[copyIndex('policyDefinitions')][1])]",
-                        "policyDefinitionReferenceId": "[variables('PoliciesArray')[copyIndex('policyDefinitions')][0]]"
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Policies')[copyIndex('policyDefinitions')].name)]",
+                        "policyDefinitionReferenceId": "[variables('Policies')[copyIndex()].id]"
                     }
                 }
                 ]
