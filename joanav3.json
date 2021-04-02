@@ -26,10 +26,17 @@
         }
     },
     "variables": {
-        "Tag2": "00b37f0c-2233-4074-99a1-53e7bc25a7da",
-        "Tag3": "d3d634ee-d900-4792-9265-2705e9b4be79",
-        "Tag2Definitions" : "[if(equals(parameters('TAG2'),'Yes'),'{\"policyDefinitionId\": \"[concat(subscription().id, \"/providers/Microsoft.Authorization/policyDefinitions/\", variables(\"Tag2\"))]\", \"policyDefinitionReferenceId\": \"Tag2\"},','')]",
-        "Tag3Definitions" : "[if(equals(parameters('TAG3'),'Yes'),'{\"policyDefinitionId\": \"[concat(subscription().id, \"/providers/Microsoft.Authorization/policyDefinitions/\", variables(\"Tag3\"))]\", \"policyDefinitionReferenceId\": \"Tag3\"},','')]"
+        "Policies": {
+            "type": "object",
+            "defaultValue": {
+                "Tag2": "00b37f0c-2233-4074-99a1-53e7bc25a7da",
+                "Tag3": "d3d634ee-d900-4792-9265-2705e9b4be79"
+            }
+        },
+        "PoliciesArray": {
+            "type": "array",
+            "value": "[createArray(variables('Policies'))]"
+        }
     },
     "resources": [
         {
@@ -44,7 +51,17 @@
                     "category": "Tags"
                 },
                 "parameters": {},
-                "policyDefinitions": ["[variables('Tag2Definitions')]"]
+                "policyDefinitions": ["[variables('Tag2Definitions')]"],
+                "copy": [
+                {
+                    "name": "policyDefinitions",
+                    "count": 2,
+                    "input": {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', [variables('PoliciesArray')[copyIndex('policyDefinitions')][1]]]",
+                        "policyDefinitionReferenceId": "[variables('PoliciesList')[copyIndex('policyDefinitions')][0]]"
+                    }
+                }
+                ]
             }
         }
     ],
