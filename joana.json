@@ -45,11 +45,11 @@
                 "policyDefinitions": [
                     {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag2'))]",
-                        "policyDefinitionReferenceId": "Resource_Group_Tags",
+                        "policyDefinitionReferenceId": "Tag2",
                     },
                     {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag3'))]",
-                        "policyDefinitionReferenceId": "Resource_Group_Tags",
+                        "policyDefinitionReferenceId": "Tag3",
                     }
                 ]
             }
