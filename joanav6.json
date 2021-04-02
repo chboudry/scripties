@@ -50,7 +50,6 @@
                 "metadata": {
                     "category": "Tags"
                 },
-                "parameters": {},
                 "copy": [
                 {
                     "name": "policyDefinitions",
