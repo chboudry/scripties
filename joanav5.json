@@ -51,7 +51,6 @@
                     "category": "Tags"
                 },
                 "parameters": {},
-                "policyDefinitions": [],
                 "copy": [
                 {
                     "name": "policyDefinitions",
