@@ -51,14 +51,14 @@
                     "category": "Tags"
                 },
                 "parameters": {},
-                "policyDefinitions": ["[variables('Tag2Definitions')]"],
+                "policyDefinitions": [],
                 "copy": [
                 {
                     "name": "policyDefinitions",
                     "count": 2,
                     "input": {
-                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', [variables('PoliciesArray')[copyIndex('policyDefinitions')][1]]]",
-                        "policyDefinitionReferenceId": "[variables('PoliciesList')[copyIndex('policyDefinitions')][0]]"
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('PoliciesArray')[copyIndex('policyDefinitions')][1])]",
+                        "policyDefinitionReferenceId": "[variables('PoliciesArray')[copyIndex('policyDefinitions')][0]]"
                     }
                 }
                 ]
