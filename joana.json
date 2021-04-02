@@ -46,26 +46,10 @@
                     {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag2'))]",
                         "policyDefinitionReferenceId": "Resource_Group_Tags",
-                        "parameters": {
-                            "allowedEnvironmentTagValues": {
-                                "value": "[[parameters('allowedEnvironmentTagValues')]"
-                            },
-                            "allowedCriticalityTagValues": {
-                                "value": "[[parameters('allowedCriticalityTagValues')]"
-                            }
-                        }
                     },
                     {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Tag3'))]",
                         "policyDefinitionReferenceId": "Resource_Group_Tags",
-                        "parameters": {
-                            "allowedEnvironmentTagValues": {
-                                "value": "[[parameters('allowedEnvironmentTagValues')]"
-                            },
-                            "allowedCriticalityTagValues": {
-                                "value": "[[parameters('allowedCriticalityTagValues')]"
-                            }
-                        }
                     }
                 ]
             }
