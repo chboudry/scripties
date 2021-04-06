@@ -27,11 +27,8 @@
     },
     "variables": {
         "Policies0" : [],
-        "value": "[if(equals('a', 'a'), json('{\"test\": \"value1\"}'), json('null'))]",
-        
-        //"Policies1" : "[if(equals(parameters('TAG2'),"Yes"),'yes','no')]",
         "Policies1" : "[if(equals(parameters('TAG2'),'Yes'),concat(variables('Policies0'), variables('PoliciesTag2')),variables('Policies0'))]",
-        "Policies2" : "[if(equals(parameters('TAG2'),'Yes'),concat(variables('Policies1'), variables('PoliciesTag3')),variables('Policies1'))]",
+        "Policies2" : "[if(equals(parameters('TAG3'),'Yes'),concat(variables('Policies1'), variables('PoliciesTag3')),variables('Policies1'))]",
         
         "PoliciesTag2" : [{
                 "name": "Tag2",
