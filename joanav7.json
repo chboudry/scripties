@@ -26,19 +26,25 @@
         }
     },
     "variables": {
-         "PoliciesTag2" : [{
-                "name": "Tag2",
-                "id": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
-            }],
+        "PolicyList": {
+            "Tag2":{
+                "Yes": [{
+                    "name": "Tag2",
+                    "id": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
+                }],
+                "No": []
+            },
+            "Tag3":{
+                "Yes": [{
+                    "name": "Tag3",
+                    "id": "d3d634ee-d900-4792-9265-2705e9b4be79"
+                }],
+                "No": []
+            }
+        }, 
 
-        "PoliciesTag3" : [{
-                "name": "Tag3",
-                "id": "d3d634ee-d900-4792-9265-2705e9b4be79"
-        }],
-        "Policies0" : [],
-        "Policies1" : "[if(equals(parameters('TAG2'),'Yes'),concat(variables('Policies0'), variables('PoliciesTag2')),variables('Policies0'))]",
-        "Policies2" : "[if(equals(parameters('TAG3'),'Yes'),concat(variables('Policies1'), variables('PoliciesTag3')),variables('Policies1'))]",
-        "Policies": "[variables('Policies2')]"   
+        "Policies" : "[concat(variables('PolicyList')['Tag2'][parameters('TAG2')],variables('PolicyList')['Tag3'][parameters('TAG3')])]"
+
     },
     "resources": [
         {
