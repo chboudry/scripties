@@ -26,6 +26,22 @@
         }
     },
     "variables": {
+        "Policies0" : [],
+        "value": "[if(equals('a', 'a'), json('{\"test\": \"value1\"}'), json('null'))]",
+        
+        //"Policies1" : "[if(equals(parameters('TAG2'),"Yes"),'yes','no')]",
+        "Policies1" : "[if(equals(parameters('TAG2'),'Yes'),concat(variables('Policies0'), variables('PoliciesTag2')),variables('Policies0'))]",
+        "Policies2" : "[if(equals(parameters('TAG2'),'Yes'),concat(variables('Policies1'), variables('PoliciesTag3')),variables('Policies1'))]",
+        
+        "PoliciesTag2" : [{
+                "name": "Tag2",
+                "id": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
+            }],
+
+        "PoliciesTag3" : [{
+                "name": "Tag2",
+                "id": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
+        }],
         "Policies": [
             {
                 "name": "Tag2",
@@ -52,7 +68,7 @@
                 "copy": [
                 {
                     "name": "policyDefinitions",
-                    "count": "[length(variables('Policies'))]",
+                    "count": "[length(variables('Policies2'))]",
                     "input": {
                         "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Policies')[copyIndex('policyDefinitions')].id)]",
                         "policyDefinitionReferenceId": "[variables('Policies')[copyIndex('policyDefinitions')].name]"
