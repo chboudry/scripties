@@ -50,9 +50,9 @@
         {
             "type": "Microsoft.Authorization/policySetDefinitions",
             "apiVersion": "2019-09-01",
-            "name": "joanainitiative",
+            "name": "mycustominitiativename",
             "properties": {
-                "displayName": "joanainitiative",
+                "displayName": "mycustominitiativename",
                 "description": "description",
                 "policyType": "Custom",
                 "metadata": {
