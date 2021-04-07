@@ -1,0 +1,82 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "TAG2": {
+            "type": "string",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "defaultValue": "No",
+            "metadata": {
+                "description": "TAG2"
+            }
+        },
+        "TAG3": {
+            "type": "string",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "defaultValue": "Yes",
+            "metadata": {
+                "description": "TAG3"
+            }
+        }
+    },
+    "variables": {
+        "PolicyList": {
+            "TAG2":{
+                "armparametername" : "TAG2",
+                "Yes": [{
+                    "policyname": "Tag2",
+                    "policyid": "00b37f0c-2233-4074-99a1-53e7bc25a7da"
+                }],
+                "No": []
+            },
+            "TAG3":{
+                "armparametername" : "TAG3",
+                "Yes": [{
+                    "policyname": "Tag3",
+                    "policyid": "d3d634ee-d900-4792-9265-2705e9b4be79"
+                }],
+                "No": []
+            }
+        }, 
+        "copy": [
+        {
+            "name": "Policies",
+            "count": "[length(variables('PolicyList'))]",
+            "input": "[concat(variables('PolicyList')[copyIndex('policyDefinitions')][parameters((variables('PolicyList')[copyIndex('policyDefinitions')].armparametername)]"
+        }
+        ]
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policySetDefinitions",
+            "apiVersion": "2019-09-01",
+            "name": "mycustominitiativename",
+            "properties": {
+                "displayName": "mycustominitiativename",
+                "description": "description",
+                "policyType": "Custom",
+                "metadata": {
+                    "category": "Tags"
+                },
+                "copy": [
+                {
+                    "name": "policyDefinitions",
+                    "count": "[length(variables('Policies'))]",
+                    "input": {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('Policies')[copyIndex('policyDefinitions')].policyid)]",
+                        "policyDefinitionReferenceId": "[variables('Policies')[copyIndex('policyDefinitions')].policyname]"
+                    }
+                }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+    }
+}
