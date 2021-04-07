@@ -48,7 +48,7 @@
         {
             "name": "Policies",
             "count": "[length(variables('PolicyList'))]",
-            "input": "[concat(variables('PolicyList')[copyIndex('policyDefinitions')][parameters((variables('PolicyList')[copyIndex('policyDefinitions')].armparametername)]"
+            "input": "[concat(variables('PolicyList')[copyIndex('policyDefinitions')][parameters(variables('PolicyList')[copyIndex('policyDefinitions')].armparameternam))]"
         }
         ]
     },
