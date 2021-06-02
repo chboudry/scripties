@@ -1,0 +1,33 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "tags.OS",
+          "exists": "false"
+        },
+        {
+          "field": "type",
+          "equals": "Microsoft.HybridCompute/machines"
+        }
+      ]
+    },
+    "then": {
+      "effect": "modify",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "operations": [
+          {
+            "operation": "add",
+            "field": "tags['OS']",
+            "value": "[field('Microsoft.HybridCompute/machines/osSku')]"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {}
+}
