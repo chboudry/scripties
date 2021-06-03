@@ -1,0 +1,49 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "tags.OS",
+          "exists": "false"
+        },
+        {
+          "field": "type",
+          "equals": "[parameters('resourceType')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "modify",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "operations": [
+          {
+            "operation": "add",
+            "field": "tags['OS']",
+            "value": "[concat('field(',parameters('resourceAlias'),')')]"
+          }
+        ]
+      }
+    }
+  },
+ "parameters": {
+      "resourceType": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Type",
+          "description": "Enter the strong type of the resource you want to add the tag to. example : Microsoft.HybridCompute/machines",
+        }
+      }
+      "resourceAlias": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Alias",
+          "description": "Enter the alias for the resource where to get the parameter value. example : Microsoft.HybridCompute/machines/osSku. ",
+        }
+      }
+    }
+  }
+}
