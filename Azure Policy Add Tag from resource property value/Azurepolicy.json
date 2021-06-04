@@ -4,7 +4,7 @@
     "if": {
       "allOf": [
         {
-          "field": "tags.OS",
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
           "exists": "false"
         },
         {
@@ -22,27 +22,33 @@
         "operations": [
           {
             "operation": "add",
-            "field": "tags['OS']",
-            "value": "[concat('field(',parameters('resourceAlias'),')')]"
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "value": "[field(parameters('resourceAlias'))]"
           }
         ]
       }
     }
   },
- "parameters": {
-      "resourceType": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Resource Type",
-          "description": "Enter the strong type of the resource you want to add the tag to. example : Microsoft.HybridCompute/machines",
-        }
-      },
-      "resourceAlias": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Resource Alias",
-          "description": "Enter the alias for the resource where to get the parameter value. example : Microsoft.HybridCompute/machines/osSku. ",
-        }
+  "parameters": {
+    "tagName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Tag Name",
+        "description": "Enter the Tag name where the resource property value will be set. example : OS"
+      }
+    },
+    "resourceType": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Resource Type",
+        "description": "Enter the strong type of the resource you want to add the tag to. example : Microsoft.HybridCompute/machines"
+      }
+    },
+    "resourceAlias": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Resource Alias",
+        "description": "Enter the alias for the resource where to get the parameter value. example : Microsoft.HybridCompute/machines/osSku."
       }
     }
   }
